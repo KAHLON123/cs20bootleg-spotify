@@ -8,21 +8,26 @@
     <link rel="icon" type="image/x-icon" href="img/soundifyIcon.jpg">
     <title>SOUNDIFY HOMEPAGE</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="library.js"></script>
 </head>
 
 <body>
     <h1 id="title">
         Welcome to Soundify
     </h1>
-    <button id="play-btn">Play</button>
-    <button id="pause-btn">Pause</button>
     <p>
-        <audio id="toccata-in-d" src="audio/amyTurk.mp3" controls>
-            Your browser does not support this audio element
-        </audio>
+        <button id="play-btn">Play</button>
+        <button id="pause-btn">Pause</button>
     </p>
-    <div id="output"></div>
+    <br>
+    <div>
+        <select id="song-menu">
+            <option value="Shuffle">Shuffle all</option>
+            <option value="Toccata">Toccata and Fugue in d minor -J.S. Bach</option>
+            <option value="Bolero">Bolero -Maurice Ravel</option>
+        </select>
+    </div>
 </body>
 
 </html>
