@@ -1,9 +1,29 @@
 body {
     background-color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #title {
     color: rgb(174, 137, 235);
     font-size: 60px;
     text-align: center;
+}
+
+#song-menu {
+    background-color: black;
+    cursor: pointer;
+    color: rgb(174, 137, 235);
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+div {
+    padding-left: 50px;
+}
+
+p {
+    padding-left: 50px;
 }
