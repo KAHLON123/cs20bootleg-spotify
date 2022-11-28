@@ -14,3 +14,4 @@ function returnIn(low, high) {
 function randomRGB() {
     return `rgb(${randomInt(0, 256)}, ${randomInt(0, 256)}, ${randomInt(0, 256)})`;
 }
+
