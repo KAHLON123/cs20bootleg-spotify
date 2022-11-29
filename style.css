@@ -31,3 +31,7 @@ p {
 #paragraph {
     color: rgb(174, 137, 235);
 }
+
+#playlist-output {
+    color: white;
+}
