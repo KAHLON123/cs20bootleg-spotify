@@ -12,6 +12,10 @@ let outputEl = document.getElementById('playlist-output');
 // SONG ELEMENTS
 let toccata = new Audio('audio/amyTurk.mp3');
 let bolero = new Audio('audio/mauriceRavelBolero.mp3');
+let navarra = new Audio('audio/sarasateNavarra.mp3');
+let campanella = new Audio('audio/lisztCampanella.mp3');
+let pagCapFive = new Audio('audio/paganiniCaprice5.mp3');
+let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }];
@@ -31,10 +35,9 @@ function listDisplay() {
     outputEl.innerHTML = '';
     let outputStr = '';
     for (let i = 0; i < playlist.length; i++) {
-        outputStr += getPlaylistHTMLStr(songs[i], i);
+        outputStr += getPlaylistHTMLStr(playlist[i], i);
     }
     outputEl.innerHTML = outputStr;
-
 }
 
 //EVENT FUNCTIONS
@@ -50,14 +53,12 @@ function playHandler() {
 
 function pauseHandler() {
     let selection = menuEl.value;
-    if (selection === 'Toccata') {
-        pause(toccata);
-    } else if (selection === 'Bolero') {
-        pause(bolero);
-    } else if (selection === 'Shuffle') {
+    if (selection === 'Shuffle') {
         let randNum = returnIn(0, songs.length);
         menuEl.value = songs[randNum].piece;
         pause(songs[randNum].audioEl);
+    } else {
+        pause(songs[indexOf(selection, songs)].audioEl);
     }
 }
 
@@ -65,10 +66,13 @@ function addToPlaylist() {
     if (menuEl.value === 'Shuffle') {
         alert('Please choose a piece');
     } else {
-        var indexFound = indexOf(menuEl.value, playlist);
-        console.log(indexFound);
+        // Check if chosen song if already in playlist
+        let indexFound = indexOf(menuEl.value, playlist);
         if (indexFound === -1) {
-            playlist.push(songs[indexFound]);
+            // Not in playlist - add to playlist
+            let songIndex = indexOf(menuEl.value, songs);
+            console.log(songIndex, songs[songIndex]);
+            playlist.push(songs[songIndex]);
             listSave();
             listDisplay();
             console.log(playlist);
