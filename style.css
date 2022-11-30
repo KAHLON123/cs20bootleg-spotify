@@ -10,9 +10,12 @@ body {
 }
 
 #song-menu {
+
     background-color: black;
     cursor: pointer;
     color: rgb(174, 137, 235);
+    font-size: 20px;
+    padding-left: 50px;
 }
 
 button {
@@ -20,18 +23,19 @@ button {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-div {
-    padding-left: 50px;
-}
-
-p {
-    padding-left: 50px;
-}
-
-#paragraph {
+#paragraph1 {
+    text-align: center;
     color: rgb(174, 137, 235);
 }
 
+#paragraph2 {
+    text-align: center;
+    color: rgb(174, 137, 235);
+    padding-left: 450px;
+}
+
 #playlist-output {
+    text-align: center;
     color: white;
+    padding-left: 450px;
 }
