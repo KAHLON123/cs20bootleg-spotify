@@ -18,7 +18,7 @@ let pagCapFive = new Audio('audio/paganiniCaprice5.mp3');
 let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 
 // ARRAYS
-let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }];
+let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
 
 let playlist = loadPlaylist();
 
@@ -44,8 +44,10 @@ function listDisplay() {
 function playHandler() {
     let selection = menuEl.value;
     if (selection === 'Shuffle') {
-        play(songs[returnIn(0, songs.length)].audioEl);
-        console.log(returnIn(0, songs.length));
+        let randNum = returnIn(0, songs.length);
+        play(songs[randNum].audioEl);
+        console.log(randNum);
+        menuEl.value = songs[randNum].piece;
     } else {
         play(songs[indexOf(selection, songs)].audioEl);
     }
@@ -53,13 +55,7 @@ function playHandler() {
 
 function pauseHandler() {
     let selection = menuEl.value;
-    if (selection === 'Shuffle') {
-        let randNum = returnIn(0, songs.length);
-        menuEl.value = songs[randNum].piece;
-        pause(songs[randNum].audioEl);
-    } else {
-        pause(songs[indexOf(selection, songs)].audioEl);
-    }
+    pause(songs[indexOf(selection, songs)].audioEl);
 }
 
 function addToPlaylist() {
@@ -77,7 +73,7 @@ function addToPlaylist() {
             listDisplay();
             console.log(playlist);
         } else {
-            alert('That piece is already in that playlist');
+            alert('That piece is already in your liked music');
         }
     }
 }
@@ -86,9 +82,14 @@ function removeSong() {
     if (menuEl.value === 'Shuffle') {
         alert('Please choose a piece');
     } else {
-        playlist.splice(indexOf(menuEl.value, playlist), 1);
-        listSave();
-        listDisplay();
+        let indexFound = indexOf(menuEl.value, playlist);
+        if (indexFound === -1) {
+            alert('That piece is not in your liked music');
+        } else {
+            playlist.splice(indexFound, 1);
+            listSave();
+            listDisplay();
+        }
     }
 }
 
@@ -105,9 +106,9 @@ function indexOf(item, array) {
 function getPlaylistHTMLStr(song, indexNum) {
     return `
     <div>
-    ${indexNum}:<br>
+    ${indexNum}:
     ARTIST: ${song.artist}<br>
-    TITLE: ${song.piece}
+    TITLE: ${song.piece}<br><br>
     `;
 }
 
