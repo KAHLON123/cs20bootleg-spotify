@@ -15,12 +15,19 @@ body {
     cursor: pointer;
     color: rgb(174, 137, 235);
     font-size: 20px;
-    padding-left: 50px;
+}
+
+#menu-div {
+    text-align: center;
 }
 
 button {
     cursor: pointer;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#all-buttons {
+    text-align: center;
 }
 
 #paragraph1 {
@@ -31,11 +38,11 @@ button {
 #paragraph2 {
     text-align: center;
     color: rgb(174, 137, 235);
-    padding-left: 450px;
+    padding-left: 550px;
 }
 
 #playlist-output {
     text-align: center;
     color: white;
-    padding-left: 450px;
+    padding-left: 550px;
 }
