@@ -21,9 +21,9 @@ body {
     text-align: center;
 }
 
-button {
+img {
     cursor: pointer;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 40px;
 }
 
 #all-buttons {
