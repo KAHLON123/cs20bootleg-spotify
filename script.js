@@ -5,6 +5,7 @@ let playBtn = document.getElementById('play-btn');
 let pauseBtn = document.getElementById('pause-btn');
 let playlistBtn = document.getElementById('playlist-btn');
 let removeBtn = document.getElementById('remove-btn');
+let restartBtn = document.getElementById('restart-btn');
 
 let menuEl = document.getElementById('song-menu');
 let outputEl = document.getElementById('playlist-output');
@@ -22,12 +23,12 @@ let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: '
 
 let playlist = loadPlaylist();
 
-// make a display for each array index individually and play a certain song (event listener on button)
+// event listeners
 playBtn.addEventListener('click', playHandler);
 pauseBtn.addEventListener('click', pauseHandler);
 playlistBtn.addEventListener('click', addToPlaylist);
 removeBtn.addEventListener('click', removeSong);
-
+restartBtn.addEventListener('click', reset);
 
 // DISPLAY PLAYLIST:
 listDisplay();
@@ -44,6 +45,7 @@ function listDisplay() {
 function playHandler() {
     let selection = menuEl.value;
     if (selection === 'Shuffle') {
+
         let randNum = returnIn(0, songs.length);
         play(songs[randNum].audioEl);
         console.log(randNum);
@@ -91,6 +93,13 @@ function removeSong() {
             listDisplay();
         }
     }
+}
+
+function reset() {
+    let currentSong = songs[indexOf(menuEl.value, songs)].audioEl;
+    console.log(currentSong);
+    currentSong.pause;
+    currentSong.currentTime = 0;
 }
 
 // HELPER FUNCTIONS
