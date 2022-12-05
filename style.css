@@ -30,6 +30,21 @@ img {
     text-align: center;
 }
 
+.slidecontainer {
+    text-align: center;
+}
+
+.slider {
+    appearance: none;
+    width: 31%;
+    background-color: rgb(174, 137, 235);
+    cursor: pointer;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
 #paragraph1 {
     text-align: center;
     color: rgb(174, 137, 235);
