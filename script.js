@@ -1,5 +1,6 @@
 // HTML ELEMENTS
 let output = document.getElementById('output');
+let slider = document.getElementById('')
 
 let playBtn = document.getElementById('play-btn');
 let pauseBtn = document.getElementById('pause-btn');
