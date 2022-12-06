@@ -1,6 +1,6 @@
 // HTML ELEMENTS
-let output = document.getElementById('output');
-let slider = document.getElementById('')
+let slider = document.getElementById('songRange');
+let rangeOutputEl = document.getElementById('range-display');
 
 let playBtn = document.getElementById('play-btn');
 let pauseBtn = document.getElementById('pause-btn');
@@ -45,14 +45,18 @@ function listDisplay() {
 //EVENT FUNCTIONS
 function playHandler() {
     let selection = menuEl.value;
+    let sliderDisVal = '';
     if (selection === 'Shuffle') {
-
         let randNum = returnIn(0, songs.length);
         play(songs[randNum].audioEl);
         console.log(randNum);
         menuEl.value = songs[randNum].piece;
+        sliderDisVal = songs[randNum].audioEl.currentTime;
     } else {
-        play(songs[indexOf(selection, songs)].audioEl);
+        let indexFound = indexOf(selection, songs);
+        play(songs[indexFound].audioEl);
+        sliderDisVal = songs[indexFound].audioEl.currentTime;
+
     }
 }
 
