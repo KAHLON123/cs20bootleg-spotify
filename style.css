@@ -39,6 +39,7 @@ img {
     width: 31%;
     background-color: rgb(174, 137, 235);
     cursor: pointer;
+    border-radius: 25px;
 }
 
 .slider:hover {
