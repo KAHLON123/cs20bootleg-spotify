@@ -47,18 +47,26 @@ function listDisplay() {
 //EVENT FUNCTIONS
 function playHandler() {
     let selection = menuEl.value;
-
+    let sliderDisVal = 0;
+    let totalTime = 0;
     // pause current song before playing next
     pauseHandler();
 
     if (selection === 'Shuffle') {
         let randNum = returnIn(0, songs.length);
-        console.log(randNum);
         menuEl.value = songs[randNum].piece;
         currentSong = songs[randNum].audioEl;
+        sliderDisVal = songs[randNum].audioEl.currentTime;
+        totalTime = songs[randNum].audioEl.duration;
     } else {
         currentSong = songs[indexOf(selection, songs)].audioEl;
+        sliderDisVal = songs[indexOf(selection, songs)].audioEl.currentTime;
+        totalTime = songs[indexOf(selection, songs)].audioEl.duration;
     }
+    //slider.value is a percentage taken of currentTime since the slider is out of 100
+    slider.value = (sliderDisVal / totalTime) * 100
+    //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
+    rangeOutputEl.innerHTML = sliderDisVal / 60;
     play(currentSong);
 }
 
