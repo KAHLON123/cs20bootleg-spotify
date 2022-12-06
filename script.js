@@ -19,8 +19,6 @@ let campanella = new Audio('audio/lisztCampanella.mp3');
 let pagCapFive = new Audio('audio/paganiniCaprice5.mp3');
 let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 
-let currentSong = null;
-
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
 
@@ -47,26 +45,20 @@ function listDisplay() {
 //EVENT FUNCTIONS
 function playHandler() {
     let selection = menuEl.value;
-
-    // pause current song before playing next
-    pauseHandler();
-
     if (selection === 'Shuffle') {
 
         let randNum = returnIn(0, songs.length);
+        play(songs[randNum].audioEl);
         console.log(randNum);
         menuEl.value = songs[randNum].piece;
-        currentSong = songs[randNum].audioEl;
     } else {
-        currentSong = songs[indexOf(selection, songs)].audioEl;
+        play(songs[indexOf(selection, songs)].audioEl);
     }
-    play(currentSong);
 }
 
 function pauseHandler() {
-    if (currentSong != null) {
-        pause(currentSong);
-    }
+    let selection = menuEl.value;
+    pause(songs[indexOf(selection, songs)].audioEl);
 }
 
 function addToPlaylist() {
@@ -105,6 +97,7 @@ function removeSong() {
 }
 
 function reset() {
+    let currentSong = songs[indexOf(menuEl.value, songs)].audioEl;
     console.log(currentSong);
     currentSong.pause;
     currentSong.currentTime = 0;
