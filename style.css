@@ -9,6 +9,10 @@ body {
     text-align: center;
 }
 
+#range-display {
+    color: white;
+}
+
 #song-menu {
 
     background-color: black;
