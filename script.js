@@ -20,11 +20,12 @@ let pagCapFive = new Audio('audio/paganiniCaprice5.mp3');
 let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 
 let currentSong = null;
+let playlist = loadPlaylist();
+
 
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
 
-let playlist = loadPlaylist();
 
 // event listeners
 playBtn.addEventListener('click', playHandler);
@@ -47,8 +48,6 @@ function listDisplay() {
 //EVENT FUNCTIONS
 function playHandler() {
   let selection = menuEl.value;
-  let sliderDisVal = 0;
-  let totalTime = 0;
   // pause current song before playing next
   pauseHandler();
 
@@ -60,7 +59,7 @@ function playHandler() {
     currentSong = songs[indexOf(selection, songs)].audioEl;
   }
   //slider.value is a percentage taken of currentTime since the slider is out of 100
-  slider.value = (currentSong.currentTime / currentSong.duration) * 100
+  moveSlider((currentSong.currentTime / currentSong.duration) * 100);
   //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
   rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime);
   play(currentSong);
@@ -70,6 +69,14 @@ function pauseHandler() {
   if (currentSong != null) {
     pause(currentSong);
   }
+}
+
+function reset() {
+  console.log(currentSong);
+  currentSong.pause;
+  currentSong.currentTime = 0;
+  rangeOutputEl.innerHTML = 0;
+  slider.value = 0;
 }
 
 function addToPlaylist() {
@@ -107,17 +114,16 @@ function removeSong() {
   }
 }
 
-function reset() {
-  console.log(currentSong);
-  currentSong.pause;
-  currentSong.currentTime = 0;
+// HELPER FUNCTIONS
+function moveSlider(percent) {
+  slider.value = +slider.value + percent;
+  let myInterval = setInterval(moveSlider, 1000, percent);
 }
 
-// HELPER FUNCTIONS
 function getTimeHTMLStr(timeInSec) {
   return `
   <div>
-    ${Math.floor(timeInSec / 60)}: ${timeInSec}
+    ${Math.floor(timeInSec / 60)}: ${Math.floor(timeInSec)}
   </div>
   `;
 }
