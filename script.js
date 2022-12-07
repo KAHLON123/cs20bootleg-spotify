@@ -36,99 +36,103 @@ restartBtn.addEventListener('click', reset);
 // DISPLAY PLAYLIST:
 listDisplay();
 function listDisplay() {
-    outputEl.innerHTML = '';
-    let outputStr = '';
-    for (let i = 0; i < playlist.length; i++) {
-        outputStr += getPlaylistHTMLStr(playlist[i], i);
-    }
-    outputEl.innerHTML = outputStr;
+  outputEl.innerHTML = '';
+  let outputStr = '';
+  for (let i = 0; i < playlist.length; i++) {
+    outputStr += getPlaylistHTMLStr(playlist[i], i);
+  }
+  outputEl.innerHTML = outputStr;
 }
 
 //EVENT FUNCTIONS
 function playHandler() {
-    let selection = menuEl.value;
-    let sliderDisVal = 0;
-    let totalTime = 0;
-    // pause current song before playing next
-    pauseHandler();
+  let selection = menuEl.value;
+  let sliderDisVal = 0;
+  let totalTime = 0;
+  // pause current song before playing next
+  pauseHandler();
 
-    if (selection === 'Shuffle') {
-        let randNum = returnIn(0, songs.length);
-        menuEl.value = songs[randNum].piece;
-        currentSong = songs[randNum].audioEl;
-        sliderDisVal = songs[randNum].audioEl.currentTime;
-        totalTime = songs[randNum].audioEl.duration;
-    } else {
-        currentSong = songs[indexOf(selection, songs)].audioEl;
-        sliderDisVal = songs[indexOf(selection, songs)].audioEl.currentTime;
-        totalTime = songs[indexOf(selection, songs)].audioEl.duration;
-    }
-    //slider.value is a percentage taken of currentTime since the slider is out of 100
-    slider.value = (sliderDisVal / totalTime) * 100
-    //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
-    rangeOutputEl.innerHTML = sliderDisVal / 60;
-    play(currentSong);
+  if (selection === 'Shuffle') {
+    let randNum = returnIn(0, songs.length);
+    menuEl.value = songs[randNum].piece;
+    currentSong = songs[randNum].audioEl;
+  } else {
+    currentSong = songs[indexOf(selection, songs)].audioEl;
+  }
+  //slider.value is a percentage taken of currentTime since the slider is out of 100
+  slider.value = (currentSong.currentTime / currentSong.duration) * 100
+  //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
+  rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime);
+  play(currentSong);
 }
 
 function pauseHandler() {
-    if (currentSong != null) {
-        pause(currentSong);
-    }
+  if (currentSong != null) {
+    pause(currentSong);
+  }
 }
 
 function addToPlaylist() {
-    if (menuEl.value === 'Shuffle') {
-        alert('Please choose a piece');
+  if (menuEl.value === 'Shuffle') {
+    alert('Please choose a piece');
+  } else {
+    // Check if chosen song if already in playlist
+    let indexFound = indexOf(menuEl.value, playlist);
+    if (indexFound === -1) {
+      // Not in playlist - add to playlist
+      let songIndex = indexOf(menuEl.value, songs);
+      console.log(songIndex, songs[songIndex]);
+      playlist.push(songs[songIndex]);
+      listSave();
+      listDisplay();
+      console.log(playlist);
     } else {
-        // Check if chosen song if already in playlist
-        let indexFound = indexOf(menuEl.value, playlist);
-        if (indexFound === -1) {
-            // Not in playlist - add to playlist
-            let songIndex = indexOf(menuEl.value, songs);
-            console.log(songIndex, songs[songIndex]);
-            playlist.push(songs[songIndex]);
-            listSave();
-            listDisplay();
-            console.log(playlist);
-        } else {
-            alert('That piece is already in your liked music');
-        }
+      alert('That piece is already in your liked music');
     }
+  }
 }
 
 function removeSong() {
-    if (menuEl.value === 'Shuffle') {
-        alert('Please choose a piece');
+  if (menuEl.value === 'Shuffle') {
+    alert('Please choose a piece');
+  } else {
+    let indexFound = indexOf(menuEl.value, playlist);
+    if (indexFound === -1) {
+      alert('That piece is not in your liked music');
     } else {
-        let indexFound = indexOf(menuEl.value, playlist);
-        if (indexFound === -1) {
-            alert('That piece is not in your liked music');
-        } else {
-            playlist.splice(indexFound, 1);
-            listSave();
-            listDisplay();
-        }
+      playlist.splice(indexFound, 1);
+      listSave();
+      listDisplay();
     }
+  }
 }
 
 function reset() {
-    console.log(currentSong);
-    currentSong.pause;
-    currentSong.currentTime = 0;
+  console.log(currentSong);
+  currentSong.pause;
+  currentSong.currentTime = 0;
 }
 
 // HELPER FUNCTIONS
+function getTimeHTMLStr(timeInSec) {
+  return `
+  <div>
+    ${Math.floor(timeInSec / 60)}: ${timeInSec}
+  </div>
+  `;
+}
+
 function indexOf(item, array) {
-    for (i = 0; i < array.length; i++) {
-        if (item === array[i].piece) {
-            return i;
-        }
+  for (i = 0; i < array.length; i++) {
+    if (item === array[i].piece) {
+      return i;
     }
-    return -1;
+  }
+  return -1;
 }
 
 function getPlaylistHTMLStr(song, indexNum) {
-    return `
+  return `
     <div>
     ${indexNum}:
     ARTIST: ${song.artist}<br>
@@ -137,20 +141,20 @@ function getPlaylistHTMLStr(song, indexNum) {
 }
 
 function play(audioEl) {
-    audioEl.play();
-    console.log('play');
+  audioEl.play();
+  console.log('play');
 }
 
 function pause(audioEl) {
-    audioEl.pause();
-    console.log("pause");
+  audioEl.pause();
+  console.log("pause");
 }
 
 function listSave() {
-    localStorage.setItem("playlist", JSON.stringify(playlist));
+  localStorage.setItem("playlist", JSON.stringify(playlist));
 }
 
 function loadPlaylist() {
-    let listStr = localStorage.getItem("playlist");
-    return JSON.parse(listStr) ?? [];
+  let listStr = localStorage.getItem("playlist");
+  return JSON.parse(listStr) ?? [];
 }
