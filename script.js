@@ -19,13 +19,14 @@ let campanella = new Audio('audio/lisztCampanella.mp3');
 let pagCapFive = new Audio('audio/paganiniCaprice5.mp3');
 let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 
+//GLOBALS
 let currentSong = null;
 let playlist = loadPlaylist();
-
+let myInterval = '';
+let oneSec = 0;
 
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
-
 
 // event listeners
 playBtn.addEventListener('click', playHandler);
@@ -58,16 +59,22 @@ function playHandler() {
   } else {
     currentSong = songs[indexOf(selection, songs)].audioEl;
   }
+  oneSec = (currentSong.currentTime / currentSong.duration) * 100;
   //slider.value is a percentage taken of currentTime since the slider is out of 100
-  moveSlider((currentSong.currentTime / currentSong.duration) * 100);
+  moveSlider();
+  console.log(oneSec);
   //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
-  rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime);
+  while ()
+    rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime);
+  console.log(getTimeHTMLStr(currentSong.currentTime));
+
   play(currentSong);
 }
 
 function pauseHandler() {
   if (currentSong != null) {
     pause(currentSong);
+    clearInterval(myInterval);
   }
 }
 
@@ -115,16 +122,19 @@ function removeSong() {
 }
 
 // HELPER FUNCTIONS
-function moveSlider(percent) {
-  slider.value = +slider.value + percent;
-  let myInterval = setInterval(moveSlider, 1000, percent);
+
+
+function moveSlider() {
+  if (myInterval != '') {
+    clearInterval(myInterval);
+  }
+  slider.value = +slider.value + oneSec;
+  myInterval = setInterval(moveSlider, 1000);
 }
 
 function getTimeHTMLStr(timeInSec) {
   return `
-  <div>
     ${Math.floor(timeInSec / 60)}: ${Math.floor(timeInSec)}
-  </div>
   `;
 }
 
