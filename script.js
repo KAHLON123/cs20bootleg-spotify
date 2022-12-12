@@ -23,7 +23,6 @@ let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 let currentSong = null;
 let playlist = loadPlaylist();
 let myInterval = '';
-let oneSec = 0;
 
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
@@ -59,14 +58,16 @@ function playHandler() {
   } else {
     currentSong = songs[indexOf(selection, songs)].audioEl;
   }
-  oneSec = (currentSong.currentTime / currentSong.duration) * 100;
   //slider.value is a percentage taken of currentTime since the slider is out of 100
   moveSlider();
-  console.log(oneSec);
   //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
-  while ()
-    rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime);
-  console.log(getTimeHTMLStr(currentSong.currentTime));
+
+  // NOTE: not sure why you need the while loop here. It would never let you play
+  // a song
+  // while (currentSong != null) {
+  //   rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime)
+  // }
+  // console.log(getTimeHTMLStr(currentSong.currentTime));
 
   play(currentSong);
 }
@@ -128,14 +129,14 @@ function moveSlider() {
   if (myInterval != '') {
     clearInterval(myInterval);
   }
-  slider.value = +slider.value + oneSec;
+  slider.value = (currentSong.currentTime / currentSong.duration) * 100;
   myInterval = setInterval(moveSlider, 1000);
 }
 
 function getTimeHTMLStr(timeInSec) {
-  return `
-    ${Math.floor(timeInSec / 60)}: ${Math.floor(timeInSec)}
-  `;
+  const min = Math.floor(timeInSec / 60);
+  const sec = timeInSec % 60;
+  return `${min}:${sec}`;
 }
 
 function indexOf(item, array) {
