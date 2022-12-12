@@ -23,7 +23,7 @@ let wienEtCap = new Audio('audio/wieniawskiEtudeCaprice.mp3');
 let currentSong = null;
 let playlist = loadPlaylist();
 let myInterval = '';
-
+let secondInterval = '';
 // ARRAYS
 let songs = [{ artist: 'Bach', piece: 'Toccata', audioEl: toccata }, { artist: 'Ravel', piece: 'Bolero', audioEl: bolero }, { artist: 'Sarasate', piece: 'Navarra', audioEl: navarra }, { artist: 'Liszt', piece: 'Campanella', audioEl: campanella }, { artist: 'Paganini', piece: 'PaganiniCaprice', audioEl: pagCapFive }, { artist: 'Wieniawski', piece: 'EtudeCaprice', audioEl: wienEtCap }];
 
@@ -58,17 +58,10 @@ function playHandler() {
   } else {
     currentSong = songs[indexOf(selection, songs)].audioEl;
   }
-  //slider.value is a percentage taken of currentTime since the slider is out of 100
   moveSlider();
+  timer();
   //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
-
-  // NOTE: not sure why you need the while loop here. It would never let you play
-  // a song
-  // while (currentSong != null) {
-  //   rangeOutputEl.innerHTML = getTimeHTMLStr(currentSong.currentTime)
-  // }
-  // console.log(getTimeHTMLStr(currentSong.currentTime));
-
+  rangeOutputEl.innerHTML = getTimeHTMLStr();
   play(currentSong);
 }
 
@@ -76,6 +69,7 @@ function pauseHandler() {
   if (currentSong != null) {
     pause(currentSong);
     clearInterval(myInterval);
+    clearInterval(secondInterval);
   }
 }
 
@@ -83,7 +77,7 @@ function reset() {
   console.log(currentSong);
   currentSong.pause;
   currentSong.currentTime = 0;
-  rangeOutputEl.innerHTML = 0;
+  rangeOutputEl.innerHTML = getTimeHTMLStr(0);
   slider.value = 0;
 }
 
@@ -123,7 +117,12 @@ function removeSong() {
 }
 
 // HELPER FUNCTIONS
-
+function timer() {
+  let runTime = (currentSong.currentTime / currentSong.duration) * 100;
+  console.log(runTime);
+  getTimeHTMLStr(runTime);
+  secondInterval = setInterval(timer, 1000);
+}
 
 function moveSlider() {
   if (myInterval != '') {
@@ -134,9 +133,14 @@ function moveSlider() {
 }
 
 function getTimeHTMLStr(timeInSec) {
+  // const cannot be updated/re-declared, let can be re-declared, var can be updated or re-declared
+  // 
   const min = Math.floor(timeInSec / 60);
+  // modulo takes remaining seconds
   const sec = timeInSec % 60;
-  return `${min}:${sec}`;
+  return `
+  ${min}:${sec}
+  `;
 }
 
 function indexOf(item, array) {
