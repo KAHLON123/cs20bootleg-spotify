@@ -61,7 +61,6 @@ function playHandler() {
   moveSlider();
   timer();
   //range output must be currentTime (seconds) but in minutes AND seconds with a colon :
-  rangeOutputEl.innerHTML = getTimeHTMLStr();
   play(currentSong);
 }
 
@@ -74,7 +73,6 @@ function pauseHandler() {
 }
 
 function reset() {
-  console.log(currentSong);
   currentSong.pause;
   currentSong.currentTime = 0;
   rangeOutputEl.innerHTML = getTimeHTMLStr(0);
@@ -90,11 +88,9 @@ function addToPlaylist() {
     if (indexFound === -1) {
       // Not in playlist - add to playlist
       let songIndex = indexOf(menuEl.value, songs);
-      console.log(songIndex, songs[songIndex]);
       playlist.push(songs[songIndex]);
       listSave();
       listDisplay();
-      console.log(playlist);
     } else {
       alert('That piece is already in your liked music');
     }
@@ -118,9 +114,10 @@ function removeSong() {
 
 // HELPER FUNCTIONS
 function timer() {
-  let runTime = (currentSong.currentTime / currentSong.duration) * 100;
-  console.log(runTime);
-  getTimeHTMLStr(runTime);
+  if (secondInterval != '') {
+    clearInterval(secondInterval);
+  }
+  rangeOutputEl.innerHTML = (getTimeHTMLStr(Math.floor(currentSong.currentTime)));
   secondInterval = setInterval(timer, 1000);
 }
 
@@ -163,12 +160,10 @@ function getPlaylistHTMLStr(song, indexNum) {
 
 function play(audioEl) {
   audioEl.play();
-  console.log('play');
 }
 
 function pause(audioEl) {
   audioEl.pause();
-  console.log("pause");
 }
 
 function listSave() {
