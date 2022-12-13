@@ -10,7 +10,8 @@ body {
 }
 
 #range-display {
-    color: white;
+    color: rgb(238, 222, 203);
+    align: center;
 }
 
 #song-menu {
@@ -37,6 +38,7 @@ img {
 .slidecontainer {
     width: 32%;
     margin: auto;
+    text-align: center;
 }
 
 .slider {
@@ -64,6 +66,6 @@ img {
 
 #playlist-output {
     text-align: center;
-    color: white;
+    color: rgb(238, 222, 203);
     padding-left: 550px;
 }
